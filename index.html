@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>会社員の副業、発信ゼロから始めてみた。 | Ren's Side Hustle Log</title>
+  <meta name="description" content="特別なスキルも人脈もない会社員が、最初の1ヶ月でNoteを2本販売して¥3,480稼いだリアル記録。副業の過程を全部公開します。" />
+
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- フォント：見出し = Zen Kaku Gothic New / 英字ラベル = Cinzel / 本文 = Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans JP"', 'sans-serif'],
+            heading: ['"Zen Kaku Gothic New"', 'sans-serif'],
+            display: ['"Cinzel"', 'serif'],
+          },
+          colors: {
+            ink: {
+              950: '#0f0b0e', // ページ最深部（微かに暖かい黒）
+              900: '#161017', // セクション背景（深紫がかった黒）
+              800: '#1e1620', // カード背景
+              700: '#342a3a', // ボーダー
+            },
+            gold: {
+              DEFAULT: '#d8b986',
+              bright: '#eedcae',
+              deep: '#a8874a',
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    body { letter-spacing: 0.015em; }
+
+    /* ---- 英字キッカー（高級感のあるセリフ体・広い字間） ---- */
+    .kicker {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.42em;
+      font-weight: 600;
+    }
+
+    /* ---- ゴールドのグラデーション文字 ---- */
+    .gold-text {
+      background: linear-gradient(115deg, #f6e8b8 0%, #e0c28e 38%, #b5924f 68%, #f2e2b0 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 26px rgba(224, 194, 142, 0.35));
+    }
+
+    /* ---- キーワードだけ、光がゆっくり流れる ---- */
+    .gold-shine {
+      background-size: 220% auto;
+      animation: shine 7s ease-in-out infinite;
+    }
+    @keyframes shine {
+      0%, 100% { background-position: 0% center; }
+      50%      { background-position: 100% center; }
+    }
+
+    /* ---- 細いゴールドの区切り線 ---- */
+    .hr-gold {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(216, 185, 134, 0.55), transparent);
+    }
+
+    /* ---- カード：優雅に浮き上がるホバー ---- */
+    .card {
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  border-color 0.7s ease,
+                  box-shadow 0.7s ease;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(216, 185, 134, 0.45);
+      box-shadow:
+        0 24px 60px -24px rgba(216, 185, 134, 0.18),
+        0 0 0 1px rgba(216, 185, 134, 0.06) inset;
+    }
+
+    /* ---- ゴールドボタン：光が横切るシーン効果 ---- */
+    .btn-gold {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f8e9b4 0%, #e8cd90 45%, #d0a75c 100%);
+      color: #0a0a10;
+      transition: box-shadow 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 10px 34px -14px rgba(232, 205, 144, 0.5);
+    }
+    /* 主役のCTAだけ、静かに呼吸するような光 */
+    .btn-cta { animation: breathe 4.5s ease-in-out infinite; }
+    @keyframes breathe {
+      0%, 100% { box-shadow: 0 10px 34px -12px rgba(232, 205, 144, 0.45); }
+      50%      { box-shadow: 0 16px 48px -10px rgba(232, 205, 144, 0.72); }
+    }
+
+    /* 最重要CTA「私のNoteを見る」：上辺のハイライト＋一段強い光 */
+    .btn-hero {
+      animation: breathe-hero 4.5s ease-in-out infinite;
+    }
+    @keyframes breathe-hero {
+      0%, 100% {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.55),
+          inset 0 -2px 8px rgba(150, 108, 46, 0.30),
+          0 12px 40px -10px rgba(238, 214, 158, 0.55);
+      }
+      50% {
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.55),
+          inset 0 -2px 8px rgba(150, 108, 46, 0.30),
+          0 18px 58px -8px rgba(238, 214, 158, 0.85);
+      }
+    }
+
+    /* Hero見出し：柔らかな影で背景から浮かせる */
+    .hero-title { text-shadow: 0 3px 28px rgba(8, 4, 12, 0.55); }
+    .btn-gold::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+      transform: translateX(-130%);
+      transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 18px 46px -14px rgba(216, 185, 134, 0.55); }
+    .btn-gold:hover::after { transform: translateX(130%); }
+
+    .btn-ghost {
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.5s ease, color 0.5s ease;
+    }
+    .btn-ghost:hover { transform: translateY(-2px); border-color: rgba(216, 185, 134, 0.55); color: #eedcae; }
+
+    /* ---- 幻想的な背景：ゆっくり漂う光（オーロラ） ---- */
+    @keyframes drift-a {
+      0%   { transform: translate(-8%, -4%) scale(1); }
+      50%  { transform: translate(6%, 5%) scale(1.15); }
+      100% { transform: translate(-8%, -4%) scale(1); }
+    }
+    @keyframes drift-b {
+      0%   { transform: translate(5%, 6%) scale(1.1); }
+      50%  { transform: translate(-6%, -5%) scale(0.95); }
+      100% { transform: translate(5%, 6%) scale(1.1); }
+    }
+    .aurora-a { animation: drift-a 34s ease-in-out infinite; }
+    .aurora-b { animation: drift-b 42s ease-in-out infinite; }
+
+    /* ---- スクロールで静かに現れる（JS有効時のみ初期非表示にする） ---- */
+    .reveal {
+      transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .js .reveal { opacity: 0; transform: translateY(26px); }
+    .js .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.12s; }
+    .reveal-d2 { transition-delay: 0.24s; }
+    .reveal-d3 { transition-delay: 0.36s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .aurora-a, .aurora-b, .btn-cta, .btn-hero, .gold-shine { animation: none; }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .btn-gold::after { display: none; }
+    }
+  </style>
+
+  <!-- JSが有効な環境でのみ、スクロール演出用の初期非表示を適用する -->
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body class="bg-ink-950 text-zinc-300 font-sans antialiased selection:bg-gold selection:text-ink-950">
+
+  <!-- ============================================================
+       幻想的な背景レイヤー（粒子 + 漂う光）※操作を妨げない
+  ============================================================ -->
+  <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+    <!-- 深みのある縦グラデーション：深紫 → 暖かいブラウン混じりの黒 → 深い菫色 -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#1e1629] via-[#1c1418] to-[#20172c]"></div>
+    <!-- 奥行きと暖かみ：上からの灯り＋足元の深紫 -->
+    <div class="absolute inset-0"
+         style="background:
+           radial-gradient(120% 70% at 50% -10%, rgba(158, 122, 78, 0.20) 0%, transparent 64%),
+           radial-gradient(110% 60% at 50% 112%, rgba(105, 88, 152, 0.18) 0%, transparent 64%),
+           radial-gradient(85% 55% at 50% 45%, rgba(128, 102, 80, 0.07) 0%, transparent 72%);"></div>
+    <!-- ゆっくり漂う光：金と深い青紫 -->
+    <div class="aurora-a absolute -top-40 -left-40 w-[46rem] h-[46rem] rounded-full blur-3xl opacity-[0.16]"
+         style="background: radial-gradient(circle at 40% 40%, #d8b986 0%, transparent 65%);"></div>
+    <div class="aurora-b absolute top-1/3 -right-52 w-[52rem] h-[52rem] rounded-full blur-3xl opacity-[0.12]"
+         style="background: radial-gradient(circle at 60% 40%, #5a5090 0%, transparent 65%);"></div>
+    <div class="aurora-a absolute -bottom-64 left-1/4 w-[44rem] h-[44rem] rounded-full blur-3xl opacity-[0.11]"
+         style="background: radial-gradient(circle at 50% 60%, #8a6f3c 0%, transparent 65%);"></div>
+    <!-- 縁をそっと落とすヴィネット（没入感・軽めに） -->
+    <div class="absolute inset-0"
+         style="background: radial-gradient(ellipse 98% 82% at 50% 45%, transparent 65%, rgba(10, 6, 12, 0.26) 100%);"></div>
+    <!-- 浮遊する粒子（canvas） -->
+    <canvas id="particles" class="absolute inset-0 w-full h-full"></canvas>
+  </div>
+
+  <!-- ============================================================
+       ヘッダー（固定ナビ）
+  ============================================================ -->
+  <header class="fixed top-0 inset-x-0 z-50 bg-ink-950/70 backdrop-blur-md border-b border-white/5">
+    <nav class="mx-auto max-w-5xl px-5 h-16 flex items-center justify-between">
+      <a href="#top" class="font-heading font-bold text-zinc-100 tracking-[0.2em] text-sm">
+        REN<span class="text-gold">.</span>LOG
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm text-zinc-400">
+        <a href="#about" class="hover:text-gold-bright transition-colors duration-500">現在地</a>
+        <a href="#results" class="hover:text-gold-bright transition-colors duration-500">実績</a>
+        <a href="#challenge" class="hover:text-gold-bright transition-colors duration-500">これから挑戦する副業</a>
+        <a href="#faq" class="hover:text-gold-bright transition-colors duration-500">FAQ</a>
+      </div>
+      <a href="#note" class="btn-gold text-sm font-bold rounded-full px-5 py-2">
+        Noteを見る
+      </a>
+    </nav>
+  </header>
+
+  <main id="top" class="relative z-10">
+
+    <!-- ============================================================
+         1. Hero
+    ============================================================ -->
+    <section class="relative">
+      <div class="mx-auto max-w-5xl px-5 pt-44 pb-20 sm:pt-56 sm:pb-28 text-center">
+        <p class="reveal inline-flex items-center gap-3 text-[11px] sm:text-xs text-gold-bright/90 border border-gold/25 rounded-full px-5 py-2 mb-10 tracking-[0.2em]">
+          <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
+          現在進行形で更新中のリアル記録
+        </p>
+
+        <h1 class="hero-title reveal reveal-d1 font-heading font-black text-zinc-50 text-[2.35rem] leading-[1.34] sm:text-7xl sm:leading-[1.2] tracking-[0.02em]">
+          会社員の副業、<br />
+          <span class="inline-block"><span class="gold-text gold-shine">発信ゼロ</span>から</span><span class="inline-block">始めてみた。</span>
+        </h1>
+
+        <div class="reveal reveal-d2 hr-gold w-24 mx-auto mt-10 mb-9"></div>
+
+        <p class="reveal reveal-d2 text-[15px] sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-loose">
+          特別なスキルも人脈もない私が、最初の1ヶ月でNoteを2本販売して<strong class="text-gold-bright font-bold">¥3,480</strong>稼いだリアル記録。<br class="hidden sm:block" />
+          同じ境遇のあなたと一緒に、ゼロから成長していきます。
+        </p>
+
+        <div class="reveal reveal-d3 mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#note" class="btn-gold btn-hero w-full sm:w-auto font-bold rounded-full px-12 py-[18px] text-lg">
+            私のNoteを見る
+          </a>
+          <a href="#results"
+             class="btn-ghost w-full sm:w-auto font-medium text-zinc-400 border border-white/10 rounded-full px-9 py-4">
+            実績を見る
+          </a>
+        </div>
+
+        <!-- 実績ハイライト（信頼の先出し） -->
+        <div class="reveal reveal-d3 mt-16 sm:mt-20 grid grid-cols-3 divide-x divide-white/5 border border-white/10 rounded-2xl bg-white/[0.02] backdrop-blur-sm max-w-xl mx-auto">
+          <div class="py-6 px-2">
+            <p class="font-heading font-bold gold-text text-xl sm:text-2xl">¥3,480</p>
+            <p class="text-[11px] sm:text-xs text-zinc-500 mt-1.5 tracking-wider">初月の収益</p>
+          </div>
+          <div class="py-6 px-2">
+            <p class="font-heading font-bold text-zinc-100 text-xl sm:text-2xl">2本</p>
+            <p class="text-[11px] sm:text-xs text-zinc-500 mt-1.5 tracking-wider">販売したNote</p>
+          </div>
+          <div class="py-6 px-2">
+            <p class="font-heading font-bold text-zinc-100 text-xl sm:text-2xl">42日</p>
+            <p class="text-[11px] sm:text-xs text-zinc-500 mt-1.5 tracking-wider">継続日数</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         2. 私の現在地とこれから
+    ============================================================ -->
+    <section id="about" class="relative border-t border-white/5 bg-ink-900/50 scroll-mt-16">
+      <div class="mx-auto max-w-5xl px-5 py-24 sm:py-32">
+        <p class="reveal kicker text-gold text-xs mb-5">ABOUT</p>
+        <h2 class="reveal font-heading font-black text-zinc-50 text-2xl sm:text-4xl mb-4 tracking-[0.06em]">
+          私の現在地と、これから
+        </h2>
+        <div class="reveal hr-gold w-16 mb-8"></div>
+        <p class="reveal text-zinc-400 leading-loose max-w-2xl mb-16">
+          まずは自己紹介がわりに、私がどこにいて、どこへ向かうのかを正直に書きます。きっと、1ヶ月前のあなたと同じ場所からのスタートです。
+        </p>
+
+        <!-- プロフィールカード（親近感の核） -->
+        <div class="reveal card bg-ink-800/80 border border-white/10 rounded-2xl p-7 sm:p-9 mb-16 flex flex-col sm:flex-row items-start gap-7 backdrop-blur-sm">
+          <!-- プレースホルダー画像：プロフィール写真 or アバター（推奨 400x400px）に差し替えてください -->
+          <div class="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-full bg-ink-700/50 border border-gold/25 flex items-center justify-center text-zinc-600 text-[10px] text-center leading-tight">
+            アバター<br />画像
+          </div>
+          <div>
+            <p class="font-heading font-bold text-zinc-100 text-lg mb-1.5">Ren（レン）</p>
+            <p class="text-xs text-gold/80 tracking-widest mb-5">30代・都内勤務の会社員 / 副業歴 42日</p>
+            <p class="text-[15px] text-zinc-400 leading-loose">
+              平日はフルタイムで働く、ごく普通の会社員です。営業スキルなし、フォロワーほぼゼロ、副業経験ゼロ。「何者でもない自分」が副業でどこまで行けるのか、その過程をぜんぶ記録して公開しています。
+            </p>
+          </div>
+        </div>
+
+        <!-- 3ステップ：悩み → きっかけ → 宣言 -->
+        <div class="grid gap-6 sm:grid-cols-3">
+          <!-- 悩み -->
+          <div class="reveal card bg-ink-800/80 border border-white/10 rounded-2xl p-8 backdrop-blur-sm">
+            <div class="flex items-center justify-between mb-6">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/5 text-2xl" aria-hidden="true">😮‍💨</span>
+              <span class="font-display text-zinc-600 text-xs tracking-[0.3em]">STEP 01</span>
+            </div>
+            <h3 class="font-heading font-bold text-zinc-100 text-lg mb-4">よくある会社員でした</h3>
+            <p class="text-sm leading-loose text-zinc-400">
+              平日は仕事に追われ、給料は上がらず、将来にぼんやり不安。「このままでいいのかな」と思いながら、何も始められない日々を過ごしていました。たぶん、あなたと同じです。
+            </p>
+          </div>
+
+          <!-- きっかけ -->
+          <div class="reveal reveal-d1 card bg-ink-800/80 border border-white/10 rounded-2xl p-8 backdrop-blur-sm">
+            <div class="flex items-center justify-between mb-6">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/5 text-2xl" aria-hidden="true">💡</span>
+              <span class="font-display text-zinc-600 text-xs tracking-[0.3em]">STEP 02</span>
+            </div>
+            <h3 class="font-heading font-bold text-zinc-100 text-lg mb-4">「記録すること」から始めた</h3>
+            <p class="text-sm leading-loose text-zinc-400">
+              特別なスキルも、フォロワーもいない。だったら「ゼロから始める過程そのもの」に価値があるんじゃないか。そう考えて、副業の挑戦をNoteに記録して販売することにしました。
+            </p>
+          </div>
+
+          <!-- 宣言 -->
+          <div class="reveal reveal-d2 card bg-ink-800/80 border border-gold/30 rounded-2xl p-8 backdrop-blur-sm">
+            <div class="flex items-center justify-between mb-6">
+              <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gold/10 text-2xl" aria-hidden="true">🔥</span>
+              <span class="font-display text-gold text-xs tracking-[0.3em]">STEP 03</span>
+            </div>
+            <h3 class="font-heading font-bold text-zinc-100 text-lg mb-4">これからの宣言</h3>
+            <p class="text-sm leading-loose text-zinc-400">
+              盛りません。誇張しません。稼げなかった月は「稼げなかった」と書きます。その代わり、試したこと・数字・失敗はすべて公開します。一番リアルな副業記録を目指します。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         3. 実績セクション（現在進行形）
+    ============================================================ -->
+    <section id="results" class="relative border-t border-white/5 scroll-mt-16">
+      <div class="mx-auto max-w-5xl px-5 py-24 sm:py-32">
+        <p class="reveal kicker text-gold text-xs mb-5">RESULTS</p>
+        <h2 class="reveal font-heading font-black text-zinc-50 text-2xl sm:text-4xl mb-4 tracking-[0.06em]">
+          実績（現在進行形）
+        </h2>
+        <div class="reveal hr-gold w-16 mb-8"></div>
+        <p class="reveal text-zinc-400 mb-16 max-w-2xl leading-loose">
+          まだ始まったばかりです。それでも、数字は正直に載せます。ここが伸びていく過程を一緒に見届けてください。
+        </p>
+
+        <!-- 収益サマリー -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-20">
+          <div class="reveal card bg-ink-800/80 border border-white/10 rounded-2xl p-6 text-center backdrop-blur-sm">
+            <p class="text-lg mb-2" aria-hidden="true">💰</p>
+            <p class="text-xs text-zinc-500 mb-1.5 tracking-wider">累計収益</p>
+            <!-- TODO: 実際の数字に更新してください -->
+            <p class="font-heading font-bold text-2xl sm:text-3xl gold-text">¥3,480</p>
+          </div>
+          <div class="reveal reveal-d1 card bg-ink-800/80 border border-white/10 rounded-2xl p-6 text-center backdrop-blur-sm">
+            <p class="text-lg mb-2" aria-hidden="true">📝</p>
+            <p class="text-xs text-zinc-500 mb-1.5 tracking-wider">販売Note数</p>
+            <p class="font-heading font-bold text-2xl sm:text-3xl text-zinc-100">2本</p>
+          </div>
+          <div class="reveal reveal-d2 card bg-ink-800/80 border border-white/10 rounded-2xl p-6 text-center backdrop-blur-sm">
+            <p class="text-lg mb-2" aria-hidden="true">🤝</p>
+            <p class="text-xs text-zinc-500 mb-1.5 tracking-wider">購入者数</p>
+            <p class="font-heading font-bold text-2xl sm:text-3xl text-zinc-100">7人</p>
+          </div>
+          <div class="reveal reveal-d3 card bg-ink-800/80 border border-white/10 rounded-2xl p-6 text-center backdrop-blur-sm">
+            <p class="text-lg mb-2" aria-hidden="true">📅</p>
+            <p class="text-xs text-zinc-500 mb-1.5 tracking-wider">挑戦日数</p>
+            <p class="font-heading font-bold text-2xl sm:text-3xl text-zinc-100">42日</p>
+          </div>
+        </div>
+
+        <!-- 販売したNote一覧 -->
+        <h3 class="reveal font-heading font-bold text-zinc-100 text-xl sm:text-2xl mb-8 tracking-[0.05em]">今までに販売したNote</h3>
+        <div class="grid gap-6 sm:grid-cols-2 mb-20">
+          <article class="reveal card bg-ink-800/80 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm">
+            <!-- プレースホルダー画像：Noteのサムネイル（推奨 1280x670px）に差し替えてください -->
+            <div class="aspect-[1280/670] bg-gradient-to-br from-ink-700/60 to-ink-800 flex flex-col items-center justify-center gap-2 text-zinc-600 text-sm">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0021.75 19.5V4.5A1.5 1.5 0 0020.25 3H3.75A1.5 1.5 0 002.25 4.5v15A1.5 1.5 0 003.75 21z"/></svg>
+              Noteサムネイル画像
+            </div>
+            <div class="p-7">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-xs bg-gold/10 text-gold-bright border border-gold/20 rounded-full px-3.5 py-1 tracking-wider">販売中</span>
+                <span class="text-xs text-zinc-500">¥980</span>
+              </div>
+              <h4 class="font-heading font-bold text-zinc-100 text-base sm:text-lg mb-3.5 leading-snug">副業0日目の会社員が最初の1ヶ月でやったこと全記録</h4>
+              <p class="text-sm text-zinc-400 leading-loose">
+                何から手をつけたか、何に時間を溶かしたか。最初の1ヶ月の試行錯誤を時系列でまとめました。
+              </p>
+            </div>
+          </article>
+
+          <article class="reveal reveal-d1 card bg-ink-800/80 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm">
+            <!-- プレースホルダー画像：Noteのサムネイル（推奨 1280x670px）に差し替えてください -->
+            <div class="aspect-[1280/670] bg-gradient-to-br from-ink-700/60 to-ink-800 flex flex-col items-center justify-center gap-2 text-zinc-600 text-sm">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0021.75 19.5V4.5A1.5 1.5 0 0020.25 3H3.75A1.5 1.5 0 002.25 4.5v15A1.5 1.5 0 003.75 21z"/></svg>
+              Noteサムネイル画像
+            </div>
+            <div class="p-7">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-xs bg-gold/10 text-gold-bright border border-gold/20 rounded-full px-3.5 py-1 tracking-wider">販売中</span>
+                <span class="text-xs text-zinc-500">¥500</span>
+              </div>
+              <h4 class="font-heading font-bold text-zinc-100 text-base sm:text-lg mb-3.5 leading-snug">フォロワー0でもNoteが売れた導線の作り方</h4>
+              <p class="text-sm text-zinc-400 leading-loose">
+                発信力ゼロの状態で最初の1本が売れるまでに実際にやったことを、スクショ付きで解説します。
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <!-- 使用ツールと結果 -->
+        <h3 class="reveal font-heading font-bold text-zinc-100 text-xl sm:text-2xl mb-8 tracking-[0.05em]">使用したツールと結果</h3>
+        <div class="reveal overflow-x-auto rounded-2xl border border-white/10 mb-20">
+          <table class="w-full text-sm text-left min-w-[560px]">
+            <thead class="bg-ink-800 text-gold-bright/90">
+              <tr>
+                <th class="px-6 py-4 font-heading font-bold tracking-wider">ツール</th>
+                <th class="px-6 py-4 font-heading font-bold tracking-wider">用途</th>
+                <th class="px-6 py-4 font-heading font-bold tracking-wider">正直な感想・結果</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5 bg-ink-900/70">
+              <tr>
+                <td class="px-6 py-5 text-zinc-100 font-medium whitespace-nowrap">📓 Note</td>
+                <td class="px-6 py-5 text-zinc-400">有料記事の販売</td>
+                <td class="px-6 py-5 text-zinc-400 leading-relaxed">初月で2本販売・7名購入。手数料はかかるが導線が簡単で初心者向き。</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5 text-zinc-100 font-medium whitespace-nowrap">🐦 X（旧Twitter）</td>
+                <td class="px-6 py-5 text-zinc-400">日々の記録・集客</td>
+                <td class="px-6 py-5 text-zinc-400 leading-relaxed">フォロワーはまだ少ないが、固定ポストからNoteへの流入が発生。</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5 text-zinc-100 font-medium whitespace-nowrap">🎨 Canva</td>
+                <td class="px-6 py-5 text-zinc-400">サムネイル作成</td>
+                <td class="px-6 py-5 text-zinc-400 leading-relaxed">無料版で十分。サムネ変更後にクリック率が体感で改善。</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5 text-zinc-100 font-medium whitespace-nowrap">🤖 ChatGPT / Claude</td>
+                <td class="px-6 py-5 text-zinc-400">構成案・推敲</td>
+                <td class="px-6 py-5 text-zinc-400 leading-relaxed">執筆時間が半分以下に。ただし体験談だけは自分の言葉で書くのが鉄則。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 中間CTA：実績を見た直後にNoteへの導線を置く -->
+        <div class="reveal card relative overflow-hidden bg-ink-800/80 border border-gold/25 rounded-2xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-7 backdrop-blur-sm">
+          <div class="absolute -top-24 -right-24 w-64 h-64 rounded-full opacity-[0.15] blur-2xl pointer-events-none"
+               style="background: radial-gradient(circle, #d8b986 0%, transparent 70%);" aria-hidden="true"></div>
+          <div class="relative text-center sm:text-left">
+            <p class="font-heading font-bold text-zinc-100 text-lg sm:text-xl mb-2.5">この42日間の試行錯誤、ぜんぶNoteにまとめました</p>
+            <p class="text-sm text-zinc-400 leading-relaxed">遠回りした部分まで含めて、時系列でそのまま読めます。</p>
+          </div>
+          <a href="#note" class="btn-gold btn-cta relative shrink-0 w-full sm:w-auto text-center font-bold rounded-full px-8 py-3.5">
+            Noteの詳細を見る →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         4. これから挑戦する副業
+    ============================================================ -->
+    <section id="challenge" class="relative border-t border-white/5 bg-ink-900/50 scroll-mt-16">
+      <div class="mx-auto max-w-5xl px-5 py-24 sm:py-32">
+        <p class="reveal kicker text-gold text-xs mb-5">CHALLENGE</p>
+        <h2 class="reveal font-heading font-black text-zinc-50 text-2xl sm:text-4xl mb-4 tracking-[0.06em]">
+          これから挑戦する副業
+        </h2>
+        <div class="reveal hr-gold w-16 mb-8"></div>
+        <p class="reveal text-zinc-400 mb-16 max-w-2xl leading-loose">
+          初心者の会社員でも始めやすい副業を4つ選びました。<strong class="text-zinc-200">これらは全部、私自身がこれから実際に試して、結果をNoteで公開していきます。</strong>机上の空論で終わらせません。
+        </p>
+
+        <div class="reveal overflow-x-auto rounded-2xl border border-white/10">
+          <table class="w-full text-sm text-left min-w-[640px]">
+            <thead class="bg-ink-800 text-gold-bright/90">
+              <tr>
+                <th class="px-6 py-4 font-heading font-bold tracking-wider">副業</th>
+                <th class="px-6 py-4 font-heading font-bold tracking-wider">難易度</th>
+                <th class="px-6 py-4 font-heading font-bold tracking-wider">初期費用</th>
+                <th class="px-6 py-4 font-heading font-bold tracking-wider">期待収益（月）</th>
+                <th class="px-6 py-4 font-heading font-bold tracking-wider">ステータス</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5 bg-ink-950/50">
+              <tr>
+                <td class="px-6 py-5">
+                  <p class="text-zinc-100 font-medium">📝 Note・コンテンツ販売</p>
+                  <p class="text-xs text-zinc-500 mt-1.5">経験や知識を記事にして販売</p>
+                </td>
+                <td class="px-6 py-5 text-gold-bright whitespace-nowrap">★☆☆ 低</td>
+                <td class="px-6 py-5 text-zinc-400">0円</td>
+                <td class="px-6 py-5 text-zinc-400">数千円〜5万円</td>
+                <td class="px-6 py-5"><span class="text-xs bg-gold/10 text-gold-bright border border-gold/20 rounded-full px-3.5 py-1 whitespace-nowrap tracking-wider">実践中</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5">
+                  <p class="text-zinc-100 font-medium">🌐 ブログ・アフィリエイト</p>
+                  <p class="text-xs text-zinc-500 mt-1.5">記事経由で商品を紹介して報酬を得る</p>
+                </td>
+                <td class="px-6 py-5 text-amber-300/90 whitespace-nowrap">★★☆ 中</td>
+                <td class="px-6 py-5 text-zinc-400">月1,000円前後<br /><span class="text-xs text-zinc-500">（サーバー代）</span></td>
+                <td class="px-6 py-5 text-zinc-400">0円〜10万円<br /><span class="text-xs text-zinc-500">※成果まで半年〜</span></td>
+                <td class="px-6 py-5"><span class="text-xs bg-white/5 text-zinc-300 border border-white/10 rounded-full px-3.5 py-1 whitespace-nowrap tracking-wider">準備中</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5">
+                  <p class="text-zinc-100 font-medium">✍️ Webライター</p>
+                  <p class="text-xs text-zinc-500 mt-1.5">クラウドソーシングで記事執筆を受注</p>
+                </td>
+                <td class="px-6 py-5 text-gold-bright whitespace-nowrap">★☆☆ 低</td>
+                <td class="px-6 py-5 text-zinc-400">0円</td>
+                <td class="px-6 py-5 text-zinc-400">1万円〜10万円</td>
+                <td class="px-6 py-5"><span class="text-xs bg-white/5 text-zinc-300 border border-white/10 rounded-full px-3.5 py-1 whitespace-nowrap tracking-wider">近日挑戦</span></td>
+              </tr>
+              <tr>
+                <td class="px-6 py-5">
+                  <p class="text-zinc-100 font-medium">🛠️ スキル販売（ココナラ等）</p>
+                  <p class="text-xs text-zinc-500 mt-1.5">資料作成・相談などを出品</p>
+                </td>
+                <td class="px-6 py-5 text-amber-300/90 whitespace-nowrap">★★☆ 中</td>
+                <td class="px-6 py-5 text-zinc-400">0円</td>
+                <td class="px-6 py-5 text-zinc-400">5千円〜5万円</td>
+                <td class="px-6 py-5"><span class="text-xs bg-white/5 text-zinc-300 border border-white/10 rounded-full px-3.5 py-1 whitespace-nowrap tracking-wider">検討中</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="reveal text-xs text-zinc-500 mt-5 leading-relaxed">
+          ※ 期待収益は一般的な目安であり、成果を保証するものではありません。実際の結果は随時このページとNoteで公開します。
+        </p>
+
+        <p class="reveal text-sm text-zinc-400 mt-10 text-center leading-relaxed">
+          まず「実践中」のNote販売でやったことは、<a href="#note" class="text-gold-bright underline underline-offset-4 decoration-gold/40 hover:decoration-gold transition-colors">下のNote</a>にすべてまとめています。
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         5. 私のNote（メインオファー）
+    ============================================================ -->
+    <section id="note" class="relative border-t border-white/5 overflow-hidden scroll-mt-16">
+      <!-- このセクションだけ光をひとつ強めに（主役の演出） -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[46rem] h-[46rem] rounded-full blur-3xl opacity-[0.10] pointer-events-none"
+           style="background: radial-gradient(circle, #d8b986 0%, transparent 65%);" aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-5xl px-5 py-24 sm:py-32">
+        <p class="reveal kicker text-gold text-xs mb-5 text-center">MAIN OFFER</p>
+        <h2 class="reveal font-heading font-black text-zinc-50 text-2xl sm:text-4xl mb-4 text-center tracking-[0.06em]">
+          私のNote
+        </h2>
+        <div class="reveal hr-gold w-16 mx-auto mb-8"></div>
+        <p class="reveal text-zinc-400 mb-16 max-w-xl mx-auto text-center leading-loose">
+          このページの内容を「これから始める人向けの地図」として1本にまとめたのが、このNoteです。
+        </p>
+
+        <div class="reveal card bg-ink-800/90 border border-gold/30 rounded-3xl overflow-hidden max-w-3xl mx-auto backdrop-blur-sm">
+          <!-- プレースホルダー画像：メインNoteのアイキャッチ（推奨 1280x670px）に差し替えてください -->
+          <div class="aspect-[1280/670] bg-gradient-to-br from-ink-700/60 to-ink-800 flex flex-col items-center justify-center gap-2 text-zinc-600">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0021.75 19.5V4.5A1.5 1.5 0 0020.25 3H3.75A1.5 1.5 0 002.25 4.5v15A1.5 1.5 0 003.75 21z"/></svg>
+            メインNoteのアイキャッチ画像
+          </div>
+
+          <div class="p-7 sm:p-12">
+            <span class="text-xs bg-gold/10 text-gold-bright border border-gold/20 rounded-full px-3.5 py-1 tracking-wider">イチオシ</span>
+
+            <h3 class="font-heading font-black text-zinc-50 text-xl sm:text-3xl mt-6 mb-6 leading-snug tracking-tight">
+              発信ゼロの会社員が副業を始めて<br class="hidden sm:block" />最初の1ヶ月でやったこと全記録
+            </h3>
+
+            <p class="text-[15px] text-zinc-400 leading-loose mb-9">
+              「何から始めればいいかわからない」——1ヶ月前の私がそうでした。このNoteでは、完全ゼロの状態から副業を始めた最初の30日間を、実際の作業時間・使ったツール・かかったお金・心が折れかけた瞬間まで含めて、時系列で全部記録しています。成功譚ではなく「等身大の攻略メモ」です。
+            </p>
+
+            <!-- こんな人に向いています -->
+            <div class="grid sm:grid-cols-2 gap-3 mb-9 text-sm">
+              <p class="flex gap-3 bg-ink-900/80 border border-white/10 rounded-xl px-5 py-4 text-zinc-300"><span class="text-gold shrink-0">☑</span>何から始めればいいかわからない</p>
+              <p class="flex gap-3 bg-ink-900/80 border border-white/10 rounded-xl px-5 py-4 text-zinc-300"><span class="text-gold shrink-0">☑</span>フォロワーがいなくて不安</p>
+              <p class="flex gap-3 bg-ink-900/80 border border-white/10 rounded-xl px-5 py-4 text-zinc-300"><span class="text-gold shrink-0">☑</span>仕事と両立できるか心配</p>
+              <p class="flex gap-3 bg-ink-900/80 border border-white/10 rounded-xl px-5 py-4 text-zinc-300"><span class="text-gold shrink-0">☑</span>きれいごとより実際の数字が見たい</p>
+            </div>
+
+            <!-- 特典 -->
+            <div class="bg-ink-900/80 border border-white/10 rounded-2xl p-7 mb-10">
+              <p class="font-heading font-bold text-gold-bright mb-5 tracking-wider">🎁 購入特典</p>
+              <ul class="space-y-4 text-sm text-zinc-400 leading-relaxed">
+                <li class="flex gap-3"><span class="text-gold shrink-0">✓</span>私が実際に使っている「副業タスク管理シート」（スプレッドシート）</li>
+                <li class="flex gap-3"><span class="text-gold shrink-0">✓</span>最初の1本が売れたときのNote構成テンプレート</li>
+                <li class="flex gap-3"><span class="text-gold shrink-0">✓</span>今後の追記アップデートすべて無料（買い切り）</li>
+              </ul>
+            </div>
+
+            <!-- 価格 -->
+            <div class="flex items-end justify-center gap-4 mb-9">
+              <p class="font-heading font-black gold-text text-5xl sm:text-6xl">¥980</p>
+              <p class="text-zinc-500 text-sm pb-2 tracking-wider">買い切り・追記無料</p>
+            </div>
+
+            <!--
+              ▼▼▼ 購入ボタン ▼▼▼
+              href の "#" を、実際のNote販売ページのURL
+              または アフィリエイトリンク に差し替えてください。
+              例: https://note.com/あなたのID/n/xxxxxxxxxxxx
+            -->
+            <a href="#" class="btn-gold btn-cta block w-full text-center font-bold rounded-full px-8 py-4 text-lg">
+              Noteを読んでみる →
+            </a>
+
+            <p class="text-xs text-zinc-500 text-center mt-5 leading-relaxed">
+              ※ 冒頭部分は無料で読めます。合わないと思ったら買わなくて大丈夫です。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         6. よくある質問
+    ============================================================ -->
+    <section id="faq" class="relative border-t border-white/5 bg-ink-900/50 scroll-mt-16">
+      <div class="mx-auto max-w-3xl px-5 py-24 sm:py-32">
+        <p class="reveal kicker text-gold text-xs mb-5">FAQ</p>
+        <h2 class="reveal font-heading font-black text-zinc-50 text-2xl sm:text-4xl mb-4 tracking-[0.06em]">
+          よくある質問
+        </h2>
+        <div class="reveal hr-gold w-16 mb-14"></div>
+
+        <div class="space-y-4">
+          <details class="reveal group card bg-ink-800/80 border border-white/10 rounded-2xl open:border-gold/35 backdrop-blur-sm">
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 sm:p-7 font-heading font-bold text-zinc-100 text-[15px] sm:text-base">
+              本当に副業初心者ですか？
+              <span class="text-gold transition-transform duration-500 group-open:rotate-45 shrink-0 text-xl leading-none">＋</span>
+            </summary>
+            <p class="px-6 sm:px-7 pb-7 text-sm text-zinc-400 leading-loose">
+              はい。副業経験はほぼゼロ、SNSのフォロワーもほぼゼロの状態からスタートしています。だからこそ「初心者がつまずくポイント」をリアルタイムで記録できるのが、この記録の価値だと思っています。
+            </p>
+          </details>
+
+          <details class="reveal group card bg-ink-800/80 border border-white/10 rounded-2xl open:border-gold/35 backdrop-blur-sm">
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 sm:p-7 font-heading font-bold text-zinc-100 text-[15px] sm:text-base">
+              Noteを買えば稼げるようになりますか？
+              <span class="text-gold transition-transform duration-500 group-open:rotate-45 shrink-0 text-xl leading-none">＋</span>
+            </summary>
+            <p class="px-6 sm:px-7 pb-7 text-sm text-zinc-400 leading-loose">
+              正直に言うと、「読むだけで稼げる」ことは保証できません。私のNoteは魔法のノウハウではなく、実際に手を動かした記録です。同じ初心者が遠回りを減らすための地図としてお使いください。
+            </p>
+          </details>
+
+          <details class="reveal group card bg-ink-800/80 border border-white/10 rounded-2xl open:border-gold/35 backdrop-blur-sm">
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 sm:p-7 font-heading font-bold text-zinc-100 text-[15px] sm:text-base">
+              会社にバレたりしませんか？
+              <span class="text-gold transition-transform duration-500 group-open:rotate-45 shrink-0 text-xl leading-none">＋</span>
+            </summary>
+            <p class="px-6 sm:px-7 pb-7 text-sm text-zinc-400 leading-loose">
+              私自身、就業規則の確認と住民税の納付方法（普通徴収）の選択から始めました。この「会社員が副業を始める前の下準備」もNote内で詳しく書いています。※税務・法務の最終判断は専門家にご確認ください。
+            </p>
+          </details>
+
+          <details class="reveal group card bg-ink-800/80 border border-white/10 rounded-2xl open:border-gold/35 backdrop-blur-sm">
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 sm:p-7 font-heading font-bold text-zinc-100 text-[15px] sm:text-base">
+              平日は仕事です。時間はどれくらい必要ですか？
+              <span class="text-gold transition-transform duration-500 group-open:rotate-45 shrink-0 text-xl leading-none">＋</span>
+            </summary>
+            <p class="px-6 sm:px-7 pb-7 text-sm text-zinc-400 leading-loose">
+              私は平日の朝30分〜1時間と、週末の2〜3時間で回しています。フルタイム勤務のまま、生活を壊さずに続けられるペース配分も記録しているので、参考になるはずです。
+            </p>
+          </details>
+
+          <details class="reveal group card bg-ink-800/80 border border-white/10 rounded-2xl open:border-gold/35 backdrop-blur-sm">
+            <summary class="cursor-pointer list-none flex items-center justify-between gap-4 p-6 sm:p-7 font-heading font-bold text-zinc-100 text-[15px] sm:text-base">
+              質問や相談はできますか？
+              <span class="text-gold transition-transform duration-500 group-open:rotate-45 shrink-0 text-xl leading-none">＋</span>
+            </summary>
+            <p class="px-6 sm:px-7 pb-7 text-sm text-zinc-400 leading-loose">
+              X（旧Twitter）のDMかNoteのコメントで受け付けています。同じ立場の会社員同士、できる範囲でお答えします。いただいた質問はNoteの追記ネタにもさせてもらうことがあります。
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         7. 一緒に成長しましょう（最終CTA）
+    ============================================================ -->
+    <section class="relative border-t border-white/5 overflow-hidden">
+      <div class="absolute -bottom-48 left-1/2 -translate-x-1/2 w-[42rem] h-[42rem] rounded-full blur-3xl opacity-[0.10] pointer-events-none"
+           style="background: radial-gradient(circle, #d8b986 0%, transparent 65%);" aria-hidden="true"></div>
+
+      <div class="relative mx-auto max-w-3xl px-5 py-28 sm:py-40 text-center">
+        <p class="reveal kicker text-gold text-xs mb-8">JOIN THE JOURNEY</p>
+        <h2 class="reveal font-heading font-black text-zinc-50 text-[2.4rem] leading-[1.3] sm:text-6xl sm:leading-[1.22] mb-8 tracking-[0.02em]">
+          一緒に、<span class="gold-text gold-shine">ゼロから</span><br />
+          始めませんか
+        </h2>
+        <div class="reveal hr-gold w-24 mx-auto mb-10"></div>
+        <p class="reveal text-[15px] sm:text-base text-zinc-400 leading-loose max-w-xl mx-auto mb-12">
+          私はまだ、何者でもありません。だからこそ、今から始めるあなたと同じ景色が見えています。半年後、お互いに「始めてよかった」と言えるように。記録はすべて、ここに残していきます。
+        </p>
+
+        <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#note" class="btn-gold btn-hero w-full sm:w-auto font-bold rounded-full px-12 py-[18px] text-lg">
+            私のNoteを見る
+          </a>
+          <!--
+            ▼ XアカウントのURLに差し替えてください
+            例: https://x.com/あなたのID
+          -->
+          <a href="#"
+             class="btn-ghost w-full sm:w-auto font-medium text-zinc-400 border border-white/10 rounded-full px-9 py-4">
+            Xでフォローする
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       フッター
+  ============================================================ -->
+  <footer class="relative z-10 border-t border-white/5 bg-ink-900/60 backdrop-blur-sm">
+    <div class="mx-auto max-w-5xl px-5 py-12 pb-28 sm:pb-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-500">
+      <p class="font-heading font-bold text-zinc-300 tracking-[0.2em]">REN<span class="text-gold">.</span>LOG</p>
+      <p class="text-center sm:text-right">© 2026 Ren's Side Hustle Log. 記録はすべて本人の実体験に基づきます。</p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       モバイル用：追従ミニCTA（Heroを過ぎたら表示）
+  ============================================================ -->
+  <div id="mobile-cta"
+       class="sm:hidden fixed bottom-0 inset-x-0 z-40 bg-ink-950/90 backdrop-blur-md border-t border-white/10 px-5 py-3 translate-y-full transition-transform duration-500">
+    <a href="#note" class="btn-gold btn-cta block w-full text-center font-bold rounded-full py-3">
+      Noteを見てみる（¥980）
+    </a>
+  </div>
+
+  <script>
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---- 浮遊する粒子（金色の微粒子がゆっくり立ちのぼる） ---- */
+    (() => {
+      const canvas = document.getElementById('particles');
+      const ctx = canvas.getContext('2d');
+      let w, h, particles;
+
+      const resize = () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      };
+
+      const spawn = () => {
+        const count = Math.min(42, Math.floor(w / 34));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          r: 0.4 + Math.random() * 1.1,
+          speed: 0.04 + Math.random() * 0.12,     // ゆっくり上昇
+          sway: 0.2 + Math.random() * 0.4,        // 横の揺らぎ
+          phase: Math.random() * Math.PI * 2,
+          alpha: 0.04 + Math.random() * 0.18,
+          warm: Math.random() > 0.35,             // 金色 or 白
+        }));
+      };
+
+      const draw = () => {
+        ctx.clearRect(0, 0, w, h);
+        const t = performance.now() / 1000;
+        for (const p of particles) {
+          p.y -= p.speed;
+          if (p.y < -4) { p.y = h + 4; p.x = Math.random() * w; }
+          const x = p.x + Math.sin(t * 0.4 + p.phase) * p.sway * 14;
+          const twinkle = 0.7 + 0.3 * Math.sin(t * 0.8 + p.phase * 2);
+          ctx.beginPath();
+          ctx.arc(x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.warm
+            ? `rgba(222, 195, 140, ${p.alpha * twinkle})`
+            : `rgba(226, 228, 240, ${p.alpha * twinkle * 0.8})`;
+          ctx.fill();
+        }
+        requestAnimationFrame(draw);
+      };
+
+      resize();
+      spawn();
+      window.addEventListener('resize', () => { resize(); spawn(); });
+
+      if (reducedMotion) {
+        // 動きを抑える設定なら静止した粒子だけ描く
+        const t = 0;
+        for (const p of particles) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(222, 195, 140, ${p.alpha * 0.6})`;
+          ctx.fill();
+        }
+      } else {
+        requestAnimationFrame(draw);
+      }
+    })();
+
+    /* ---- スクロールで静かに現れる ---- */
+    (() => {
+      const targets = document.querySelectorAll('.reveal');
+      if (reducedMotion) { targets.forEach(el => el.classList.add('in')); return; }
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        }
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      targets.forEach(el => io.observe(el));
+    })();
+
+    /* ---- モバイル用追従CTA：Heroを過ぎたら表示、Noteセクション中は隠す ---- */
+    (() => {
+      const mobileCta = document.getElementById('mobile-cta');
+      const noteSection = document.getElementById('note');
+
+      const update = () => {
+        const pastHero = window.scrollY > window.innerHeight * 0.9;
+        const rect = noteSection.getBoundingClientRect();
+        // Noteセクションが画面の主役になっている間はCTAを隠す
+        const onNote = rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4;
+        mobileCta.classList.toggle('translate-y-full', !(pastHero && !onNote));
+      };
+
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      update();
+    })();
+  </script>
+
+</body>
+</html>
